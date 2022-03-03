@@ -1,0 +1,23 @@
+{
+  "name": "nildao-drop-template",
+  "version": "1.0.0",
+  "description": "a template to create a generative drop",
+  "main": "index.js",
+  "author": "NILDAO",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --config ./config/webpack.config.prod.js",
+    "start": "webpack serve --config ./config/webpack.config.dev.js"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.9",
+    "copy-webpack-plugin": "^10.2.4",
+    "css-loader": "^6.6.0",
+    "html-webpack-plugin": "^5.5.0",
+    "p5": "^1.4.1",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4"
+  }
+}

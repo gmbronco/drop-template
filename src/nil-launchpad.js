@@ -59,7 +59,7 @@ const render = (computeTraits, renderImage) => {
   if (metadata) {
     container.innerHTML = JSON.stringify(getMetadata({ traits }))
   } else {
-    renderImage(traits, nilRandom)
+    renderImage(nilRandom, traits)
   }
 }
 

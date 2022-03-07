@@ -38,7 +38,7 @@ const computeTraits = (nilRandom) => {
 /**
  * Define your rendering function
  */
-const renderImage = ({ backgroundColor, lineColor }, nilRandom) => {
+const renderImage = (nilRandom, { backgroundColor, lineColor }) => {
   // Since we need a callable function, we use P5 instance mode to call it after random numbers are generated
   // https://github.com/processing/p5.js/wiki/Global-and-instance-mode
   // based on https://happycoding.io/examples/p5js/for-loops/wrong-lines

@@ -25,15 +25,15 @@ const randomGenerator = (seed) => {
 
 const randomSeed = (size = 64) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
 
-// Do some validation / transformations if necessary
-const getMetadata = ({ name, author, license, traits }) => ({
-  name,
-  author,
-  license,
-  attributes: traits
+const getMetadata = ({ traits }) => ({
+  ...window.nilMetadata,
+  attributes: Object.entries(traits).map(([key, value]) => ({
+    trait_type: key,
+    value
+  })),
 })
 
-const render = (projectMetadata, computeTraits, renderingFunction) => {
+const render = (computeTraits, renderImage) => {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   })
@@ -57,9 +57,9 @@ const render = (projectMetadata, computeTraits, renderingFunction) => {
 
   // Routing to display metadata
   if (metadata) {
-    container.innerHTML = JSON.stringify(getMetadata({ ...projectMetadata, traits }))
+    container.innerHTML = JSON.stringify(getMetadata({ traits }))
   } else {
-    renderingFunction(traits, nilRandom)
+    renderImage(traits, nilRandom)
   }
 }
 

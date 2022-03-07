@@ -1,21 +1,15 @@
 import { render } from './nil-launchpad.js'
 import p5 from 'p5'
 
-// Define your project metadata
-// TODO: Explain what it is and how to build it, eg: https://docs.opensea.io/docs/metadata-standards
-
-// Constants, overridable by variables defined via web form.
-const name = 'new project'
-const author = 'bronco'
-const license = 'MIT' // list of licenses with explanations
-const metadata = { name, author, license }
-
-// Will compute traits with deterministic nilRandom generator
+/**
+ * Define your project traits
+ * Following function is  will compute traits with deterministic nilRandom generator
+ */
 const computeTraits = (nilRandom) => {
   const colorTrait = nilRandom()
 
-  // Traits
-  const backgroundColor = (n) => {
+  // Define rarity of different values based on a random number
+  const backgroundColorFn = (n) => {
     if (n <= 0.5) { // 50%
       return 'gold'
     } else { // 50%
@@ -23,7 +17,7 @@ const computeTraits = (nilRandom) => {
     }
   }
 
-  const lineColor = (n) => {
+  const lineColorFn = (n) => {
     if (n <= 0.1) { // 10%
       return 'green'
     } else
@@ -34,13 +28,17 @@ const computeTraits = (nilRandom) => {
     }
   }
 
-  const backgroundColorValue = backgroundColor(colorTrait)
-  const lineColorValue = lineColor(colorTrait)
+  // Get the vaules, which can be later accessed in the image generation function
+  const backgroundColor = backgroundColorFn(colorTrait)
+  const lineColor = lineColorFn(colorTrait)
 
-  return { backgroundColorValue, lineColorValue }
+  return { backgroundColor, lineColor }
 }
 
-const renderingFunction = ({ backgroundColorValue, lineColorValue }, nilRandom) => {
+/**
+ * Define your rendering function
+ */
+const renderImage = ({ backgroundColor, lineColor }, nilRandom) => {
   // Since we need a callable function, we use P5 instance mode to call it after random numbers are generated
   // https://github.com/processing/p5.js/wiki/Global-and-instance-mode
   // based on https://happycoding.io/examples/p5js/for-loops/wrong-lines
@@ -52,8 +50,6 @@ const renderingFunction = ({ backgroundColorValue, lineColorValue }, nilRandom) 
                             html.clientHeight, html.scrollHeight, html.offsetHeight)
     const margin = 25
 
-    console.log(width, height)
-
     p5.setup = () => {
       p5.createCanvas(width, height)
       p5.noLoop()
@@ -61,8 +57,8 @@ const renderingFunction = ({ backgroundColorValue, lineColorValue }, nilRandom) 
     }
 
     p5.draw = () => {
-      p5.background(backgroundColorValue)
-      p5.stroke(lineColorValue)
+      p5.background(backgroundColor)
+      p5.stroke(lineColor)
 
       p5.noFill()
       p5.rect(margin, margin, width - margin * 2, height - margin * 2)
@@ -92,4 +88,4 @@ const renderingFunction = ({ backgroundColorValue, lineColorValue }, nilRandom) 
   new p5(drop)
 }
 
-render(metadata, computeTraits, renderingFunction)
+render(computeTraits, renderImage)

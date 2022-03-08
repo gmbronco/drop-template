@@ -26,7 +26,7 @@ const randomGenerator = (seed) => {
 const randomSeed = (size = 64) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
 
 const getMetadata = ({ traits }) => ({
-  ...window.nilMetadata,
+  ...window.nil.metadata,
   attributes: Object.entries(traits).map(([key, value]) => ({
     trait_type: key,
     value

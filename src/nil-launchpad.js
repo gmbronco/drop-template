@@ -25,13 +25,19 @@ const randomGenerator = (seed) => {
 
 const randomSeed = (size = 64) => [...Array(size)].map(() => Math.floor(Math.random() * 16).toString(16)).join('')
 
-const getMetadata = ({ traits }) => ({
-  ...window.nil.metadata,
-  attributes: Object.entries(traits).map(([key, value]) => ({
-    trait_type: key,
-    value
-  })),
-})
+const getMetadata = ({ traits }) => {
+  if (!window.nil || !window.nil.metadata) {
+    throw ('Project metadata not defined')
+  }
+
+  return {
+    ...window.nil.metadata,
+    attributes: Object.entries(traits).map(([key, value]) => ({
+      trait_type: key,
+      value
+    })),
+  }
+}
 
 const render = (computeTraits, renderImage) => {
   const params = new Proxy(new URLSearchParams(window.location.search), {
